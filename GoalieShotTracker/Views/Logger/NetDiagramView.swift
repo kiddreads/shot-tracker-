@@ -7,12 +7,15 @@ struct NetDiagramView: View {
     let zoneStats: [NetZone: ShotStats]
     var onZoneTapped: (NetZone) -> Void
 
+    @State private var tapCount = 0
+
     var body: some View {
         VStack(spacing: 0) {
             crossbar
             LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 4), count: 3), spacing: 4) {
                 ForEach(NetZone.allCases) { zone in
                     ZoneCell(zone: zone, stats: zoneStats[zone] ?? .zero) {
+                        tapCount += 1
                         onZoneTapped(zone)
                     }
                 }
@@ -26,6 +29,7 @@ struct NetDiagramView: View {
         )
         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
         .aspectRatio(1.15, contentMode: .fit)
+        .sensoryFeedback(.selection, trigger: tapCount)
     }
 
     private var crossbar: some View {
@@ -41,10 +45,7 @@ private struct ZoneCell: View {
     let action: () -> Void
 
     var body: some View {
-        Button(action: {
-            HapticsManager.zoneSelected()
-            action()
-        }) {
+        Button(action: action) {
             VStack(spacing: 2) {
                 Text(zone.displayName)
                     .font(.caption2.weight(.semibold))

@@ -5,8 +5,13 @@ struct SettingsView: View {
     @Query private var games: [GameSessionEntity]
     @Query private var shots: [ShotEventEntity]
     @AppStorage("cloudSyncEnabled") private var cloudSyncEnabled = true
-    @State private var showingShareSheet = false
-    @State private var exportURL: URL?
+
+    private var exportURL: URL? {
+        guard !shots.isEmpty else { return nil }
+        return CSVExporter.writeTempFile(
+            csv: CSVExporter.export(shots: shots.map(\.asCoreModel), games: games.map(\.asCoreModel))
+        )
+    }
 
     var body: some View {
         Form {
@@ -17,11 +22,11 @@ struct SettingsView: View {
             }
 
             Section("Data") {
-                Button("Export All Shots as CSV") {
-                    exportURL = CSVExporter.writeTempFile(
-                        csv: CSVExporter.export(shots: shots.map(\.asCoreModel), games: games.map(\.asCoreModel))
-                    )
-                    showingShareSheet = exportURL != nil
+                if let exportURL {
+                    ShareLink("Export All Shots as CSV", item: exportURL)
+                } else {
+                    Text("Export All Shots as CSV")
+                        .foregroundStyle(.secondary)
                 }
             }
 
@@ -32,10 +37,5 @@ struct SettingsView: View {
             }
         }
         .navigationTitle("Settings")
-        .sheet(isPresented: $showingShareSheet) {
-            if let exportURL {
-                ShareSheet(items: [exportURL])
-            }
-        }
     }
 }

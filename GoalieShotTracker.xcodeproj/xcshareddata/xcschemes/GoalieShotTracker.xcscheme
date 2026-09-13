@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "00000000000000000000006C"
+               BlueprintIdentifier = "00000000000000000000006A"
                BuildableName = "GoalieShotTracker.app"
                BlueprintName = "GoalieShotTracker"
                ReferencedContainer = "container:GoalieShotTracker.xcodeproj">
@@ -44,7 +44,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00000000000000000000006C"
+            BlueprintIdentifier = "00000000000000000000006A"
             BuildableName = "GoalieShotTracker.app"
             BlueprintName = "GoalieShotTracker"
             ReferencedContainer = "container:GoalieShotTracker.xcodeproj">
@@ -61,7 +61,7 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "00000000000000000000006C"
+            BlueprintIdentifier = "00000000000000000000006A"
             BuildableName = "GoalieShotTracker.app"
             BlueprintName = "GoalieShotTracker"
             ReferencedContainer = "container:GoalieShotTracker.xcodeproj">

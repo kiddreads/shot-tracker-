@@ -42,7 +42,6 @@ APP_FILES = [
     "Views/Shared/ChipRow.swift",
     "Views/Shared/CSVExporter.swift",
     "Views/Shared/GoalieStatsProvider.swift",
-    "Views/Shared/HapticsManager.swift",
     "Views/Shared/StatTileView.swift",
     "Views/Shared/Theme.swift",
 ]

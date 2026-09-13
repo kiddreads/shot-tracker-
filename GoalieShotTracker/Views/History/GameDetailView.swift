@@ -4,11 +4,16 @@ import SwiftData
 struct GameDetailView: View {
     let game: GameSessionEntity
     @Query private var allShots: [ShotEventEntity]
-    @State private var showingShareSheet = false
-    @State private var exportURL: URL?
 
     private var shots: [ShotEvent] {
         allShots.filter { $0.game?.id == game.id }.map(\.asCoreModel).sorted { $0.timestamp < $1.timestamp }
+    }
+
+    private var exportURL: URL? {
+        CSVExporter.writeTempFile(
+            csv: CSVExporter.export(shots: shots, games: [game.asCoreModel]),
+            filename: "\(game.opponentName)-shots.csv"
+        )
     }
 
     var body: some View {
@@ -26,20 +31,11 @@ struct GameDetailView: View {
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button {
-                    exportURL = CSVExporter.writeTempFile(
-                        csv: CSVExporter.export(shots: shots, games: [game.asCoreModel]),
-                        filename: "\(game.opponentName)-shots.csv"
-                    )
-                    showingShareSheet = exportURL != nil
-                } label: {
-                    Image(systemName: "square.and.arrow.up")
+                if let exportURL {
+                    ShareLink(item: exportURL) {
+                        Image(systemName: "square.and.arrow.up")
+                    }
                 }
-            }
-        }
-        .sheet(isPresented: $showingShareSheet) {
-            if let exportURL {
-                ShareSheet(items: [exportURL])
             }
         }
     }
@@ -116,14 +112,4 @@ struct GameDetailView: View {
             }
         }
     }
-}
-
-struct ShareSheet: UIViewControllerRepresentable {
-    let items: [Any]
-
-    func makeUIViewController(context: Context) -> UIActivityViewController {
-        UIActivityViewController(activityItems: items, applicationActivities: nil)
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController, context: Context) {}
 }

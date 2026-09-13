@@ -1,6 +1,6 @@
 # Goalie Shot Tracker
 
-A native iOS app for tracking goalie shots in real time: tap a 3x3 net diagram during a game to log every shot, then break the results down by zone, shot type, danger level, and strength state. Built with SwiftUI, SwiftData, and Swift Charts.
+A 100% native SwiftUI iOS app for tracking goalie shots in real time: tap a 3x3 net diagram during a game to log every shot, then break the results down by zone, shot type, danger level, and strength state. Built entirely with SwiftUI, SwiftData, and Swift Charts — there is no UIKit, no `UIViewControllerRepresentable`, and no cross-platform layer anywhere in the app target. Sharing uses SwiftUI's `ShareLink`, haptics use SwiftUI's `.sensoryFeedback` modifier, and every screen is a SwiftUI `View`.
 
 ## Overview
 

@@ -24,7 +24,6 @@ struct RootTabView: View {
         }
         .tint(Theme.iceBlue)
         .onAppear {
-            HapticsManager.prepare()
             if appState.selectedGoalieID == nil {
                 appState.selectedGoalieID = goalies.first?.id
             }

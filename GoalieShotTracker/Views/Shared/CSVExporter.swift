@@ -35,8 +35,8 @@ enum CSVExporter {
         return "\"\(field.replacingOccurrences(of: "\"", with: "\"\""))\""
     }
 
-    /// Writes the CSV to a temp file and returns its URL, ready for a
-    /// `ShareLink` or `UIActivityViewController`.
+    /// Writes the CSV to a temp file and returns its URL, ready to hand
+    /// straight to a `ShareLink`.
     static func writeTempFile(csv: String, filename: String = "GoalieShotLog.csv") -> URL? {
         let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
         do {

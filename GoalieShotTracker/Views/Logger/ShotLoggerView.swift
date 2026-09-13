@@ -12,6 +12,7 @@ struct ShotLoggerView: View {
     @State private var pendingZone: NetZone?
     @State private var currentPeriod = 1
     @State private var lastLoggedShotID: UUID?
+    @State private var undoCount = 0
 
     private var activeGame: GameSessionEntity? {
         guard let id = appState.activeGameID else { return nil }
@@ -49,6 +50,7 @@ struct ShotLoggerView: View {
                 }
             }
         }
+        .sensoryFeedback(.impact(weight: .medium), trigger: undoCount)
     }
 
     private var startPrompt: some View {
@@ -171,7 +173,7 @@ struct ShotLoggerView: View {
     }
 
     private func undo(_ shot: ShotEventEntity) {
-        HapticsManager.undo()
+        undoCount += 1
         modelContext.delete(shot)
         try? modelContext.save()
     }

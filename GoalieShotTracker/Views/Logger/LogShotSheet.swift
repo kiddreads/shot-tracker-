@@ -19,7 +19,12 @@ struct LogShotSheet: View {
     @State private var strength: StrengthState = .evenStrength
     @State private var isRush = false
     @State private var reboundGiven = false
+    @State private var feedbackKind: FeedbackKind?
     @Environment(\.dismiss) private var dismiss
+
+    private enum FeedbackKind: Equatable {
+        case save, goal
+    }
 
     var body: some View {
         NavigationStack {
@@ -63,6 +68,8 @@ struct LogShotSheet: View {
             }
         }
         .presentationDetents([.medium, .large])
+        .sensoryFeedback(.success, trigger: feedbackKind) { _, new in new == .save }
+        .sensoryFeedback(.error, trigger: feedbackKind) { _, new in new == .goal }
     }
 
     private var header: some View {
@@ -84,7 +91,7 @@ struct LogShotSheet: View {
     private var primaryButtons: some View {
         HStack(spacing: 12) {
             Button {
-                HapticsManager.save()
+                feedbackKind = .save
                 commit(outcome: reboundGiven ? .savedRebound : .savedFrozen)
             } label: {
                 Label("SAVE", systemImage: "hand.raised.fill")
@@ -96,7 +103,7 @@ struct LogShotSheet: View {
             .tint(Theme.saveGreen)
 
             Button {
-                HapticsManager.goal()
+                feedbackKind = .goal
                 commit(outcome: reboundGiven ? .goalOnRebound : .goal)
             } label: {
                 Label("GOAL", systemImage: "xmark.circle.fill")
